@@ -176,7 +176,7 @@ int main(void) {
                 auto r1 = GetRandomValue(-50, 50);
                 auto r2 = GetRandomValue(-50, 50);
                 particleDef.position.Set(mx + r1, my + r2);
-                particleDef.flags = b2_viscousParticle | b2_colorMixingParticle;
+                particleDef.flags = b2_viscousParticle;
                 particleDef.velocity.Set(mouseVelX * 50, mouseVelY * 50);
                 particleSystem->CreateParticle(particleDef);
             }
