@@ -10,6 +10,7 @@ add_subdirectory(thirdparty/raylib)
 # add executable
 set(SOURCES
     src/main.cpp
+    src/world/World.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
