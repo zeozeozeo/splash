@@ -168,14 +168,15 @@ int main(void) {
         if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON)) {
             for (int i = 0; i < 10; i++) {
                 b2ParticleDef particleDef;
-                // auto color = ColorFromHSV(hue, 1.f, 1.f);
-                // hue = (hue + 3) % 360;
-                auto r = GetRandomValue(230, 255);
-                particleDef.color.Set(0, 120, r, 255);
+                auto color = ColorFromHSV(hue, 1.f, 1.f);
+                hue = (hue + 1) % 360;
+                // auto r = GetRandomValue(230, 255);
+                // particleDef.color.Set(0, 166, 255, 255);
+                particleDef.color.Set(color.r, color.g, color.b, 255);
                 auto r1 = GetRandomValue(-50, 50);
                 auto r2 = GetRandomValue(-50, 50);
                 particleDef.position.Set(mx + r1, my + r2);
-                particleDef.flags = b2_viscousParticle;
+                particleDef.flags = b2_viscousParticle | b2_colorMixingParticle;
                 particleDef.velocity.Set(mouseVelX * 50, mouseVelY * 50);
                 particleSystem->CreateParticle(particleDef);
             }
@@ -206,13 +207,10 @@ int main(void) {
         }
         EndTextureMode();
 
-        // draw game objects to game renderbuffer
+        // draw background game objects to game renderbuffer
         BeginTextureMode(gameTarget);
         ClearBackground(BLACK);
         DrawTexture(backgroundTex, 0, 0, WHITE);
-        for (auto& e : entities) {
-            e.draw();
-        }
         EndTextureMode();
 
         // draw to main screen
@@ -239,11 +237,17 @@ int main(void) {
         SetShaderValue(shaders[SHADER_FLUID], iTimeLoc, &iTime,
                        SHADER_UNIFORM_FLOAT);
 
+        // draw fluid texture
         DrawTextureRec(fluidTarget.texture,
                        {0.f, 0.f, static_cast<float>(fluidTarget.texture.width),
                         static_cast<float>(-fluidTarget.texture.height)},
                        {0.f, 0.f}, WHITE);
         EndShaderMode();
+
+        // draw entities on top of fluid
+        for (auto& e : entities) {
+            e.draw();
+        }
 
         DrawFPS(10, 10);
         auto particlesText =
