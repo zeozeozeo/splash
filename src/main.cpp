@@ -56,16 +56,19 @@ particle::particle(b2ParticleSystem* ps, const b2ParticleDef& def) {
 }
 
 int main(void) {
-    SetConfigFlags(FLAG_VSYNC_HINT);
+    SetConfigFlags(FLAG_VSYNC_HINT | FLAG_WINDOW_RESIZABLE);
     InitWindow(1280, 720, "Splash!");
 
     // load assets
     auto gradientTex = LoadTexture("resources/gradient.png");
     auto backgroundTex = LoadTexture("resources/background.png");
+    auto noiseTex = LoadTexture("resources/simplex.png");
     Shader shaders[SHADER_MAX] = {};
     shaders[SHADER_FLUID] = LoadShader(nullptr, "resources/shaders/fluid.fs");
     int gameTextureLoc =
         GetShaderLocation(shaders[SHADER_FLUID], "gameTexture");
+    int noiseTextureLoc =
+        GetShaderLocation(shaders[SHADER_FLUID], "noiseTexture");
     int iTimeLoc = GetShaderLocation(shaders[SHADER_FLUID], "iTime");
     int iResolutionLoc =
         GetShaderLocation(shaders[SHADER_FLUID], "iResolution");
@@ -227,11 +230,12 @@ int main(void) {
         BeginShaderMode(shaders[SHADER_FLUID]);
         SetShaderValueTexture(shaders[SHADER_FLUID], gameTextureLoc,
                               gameTarget.texture); // for water distortion
+        SetShaderValueTexture(shaders[SHADER_FLUID], noiseTextureLoc, noiseTex);
         Vector2 iResolution{static_cast<float>(gameTarget.texture.width),
                             static_cast<float>(gameTarget.texture.height)};
         SetShaderValue(shaders[SHADER_FLUID], iResolutionLoc, &iResolution,
                        SHADER_UNIFORM_VEC2);
-        auto iTime = GetTime();
+        float iTime = GetTime();
         SetShaderValue(shaders[SHADER_FLUID], iTimeLoc, &iTime,
                        SHADER_UNIFORM_FLOAT);
 

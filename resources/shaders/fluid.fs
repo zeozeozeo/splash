@@ -1,4 +1,5 @@
 #version 120
+precision highp float;
 
 // Input vertex attributes (from vertex shader)
 varying vec2 fragTexCoord;
@@ -7,17 +8,14 @@ varying vec2 fragTexCoord;
 // Input uniform values
 uniform sampler2D texture0;
 uniform sampler2D gameTexture;
+uniform sampler2D noiseTexture;
 uniform float iTime;
 uniform vec2 iResolution;
 //uniform vec4 colDiffuse;
 
-vec2 dist(vec2 uv) { 
-    //float x = uv.x*25.+iTime;
-    //float y = uv.y*25.+iTime;
-    //uv.y += cos(x+y)*0.01*cos(y);
-    //uv.x += sin(x-y)*0.01*sin(y);
-    return uv + 150.0;
-}
+// constants
+const float WATER_SPEED = 0.1;
+const float WATER_STRENGTH = 0.05;
 
 void main() {
     vec4 texelColor = texture2D(texture0, fragTexCoord);
@@ -28,10 +26,16 @@ void main() {
         //}
 
         // distortion
-        vec2 uv = dist(fragTexCoord.xy / iResolution.xy);
-        vec4 distortColor = texture2D(gameTexture, uv);
+        float noiseValue = texture2D(noiseTexture, fragTexCoord + iTime * WATER_SPEED).r;
+        vec3 gameColor = texture2D(
+            gameTexture,
+            fragTexCoord - (WATER_STRENGTH / 2.0) + vec2(noiseValue) * WATER_STRENGTH
+        ).rgb;
 
-        gl_FragColor = vec4(distortColor.rgb, 0.5);
+        gl_FragColor = vec4(
+            (result + gameColor) / 2.0,
+            1.0
+        );
     } else {
         gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
     }
