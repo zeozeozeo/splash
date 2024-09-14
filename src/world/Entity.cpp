@@ -1,10 +1,17 @@
 #include "Entity.hpp"
 
 void Entity::draw() {
-    DrawRectanglePro(m_rect, {0.f, 0.f}, m_rotation, m_color);
+    if (m_texture.id != 0) {
+        DrawTexturePro(m_texture,
+                       {0.f, 0.f, static_cast<float>(m_texture.width),
+                        static_cast<float>(m_texture.height)},
+                       m_rect, {0.f, 0.f}, m_rotation, m_color);
+    } else {
+        DrawRectanglePro(m_rect, {0.f, 0.f}, m_rotation, m_color);
+    }
 }
 
-void Entity::update() {
+void Entity::syncWithPhysicsWorld() {
     if (m_body == nullptr)
         return;
 
@@ -15,7 +22,7 @@ void Entity::update() {
     m_rotation = RAD2DEG * m_body->GetAngle();
 }
 
-void Entity::addToWorld(b2World& world, b2BodyType type, const Camera2D& camera,
+void Entity::addToWorld(b2World& world, b2BodyType type,
                         float friction, float restitution, float density) {
     b2BodyDef def;
     def.position.Set(m_rect.x + m_rect.width / 2.f,

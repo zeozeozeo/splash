@@ -12,6 +12,8 @@ set(SOURCES
     src/main.cpp
     src/world/World.cpp
     src/world/Entity.cpp
+    src/world/Player.cpp
+    src/debug/b2DrawRayLib.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
