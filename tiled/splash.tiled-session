@@ -3,14 +3,45 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "swamp.tsx",
     "expandedProjectPaths": [
+        "."
     ],
+    "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "1.tmx": {
+            "scale": 1.1202083333333333,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 480.2678073275061,
+                "y": 319.5834108238795
+            }
+        },
+        "cavernas.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 16
+        },
+        "swamp.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 4
+        }
     },
+    "last.imagePath": "C:/Users/user/Downloads/free-swamp-game-tileset-pixel-art/1 Tiles",
+    "map.lastUsedFormat": "tmx",
     "openFiles": [
+        "1.tmx",
+        "swamp.tsx"
     ],
     "project": "splash.tiled-project",
     "recentFiles": [
-    ]
+        "1.tmx",
+        "swamp.tsx",
+        "cavernas.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 32,
+        "width": 32
+    }
 }
