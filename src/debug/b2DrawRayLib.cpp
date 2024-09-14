@@ -5,7 +5,8 @@ b2DrawRayLib::b2DrawRayLib(float scale) noexcept : m_scale{scale} {}
 
 void b2DrawRayLib::SetAllFlags() noexcept {
     SetFlags(b2Draw::e_shapeBit | b2Draw::e_jointBit | b2Draw::e_aabbBit |
-             b2Draw::e_pairBit | b2Draw::e_centerOfMassBit);
+             b2Draw::e_pairBit | b2Draw::e_centerOfMassBit |
+             b2Draw::e_particleBit);
 }
 
 void b2DrawRayLib::SetScale(float scale) noexcept {
