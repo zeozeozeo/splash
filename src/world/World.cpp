@@ -75,5 +75,6 @@ void World::draw() {
                 std::to_string(static_cast<int>(mouseWorldPos.y));
 
     EndMode2D();
-    DrawText(text.c_str(), 10, 10, 20, WHITE);
+    DrawFPS(10, 10);
+    DrawText(text.c_str(), 10, 30, 20, WHITE);
 }
