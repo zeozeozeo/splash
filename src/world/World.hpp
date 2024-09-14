@@ -17,4 +17,6 @@ private:
     // contains a stack allocator (and this makes this class extremely large).
     // shouldn't be a problem though
     b2World m_b2;
+
+    void updateCamera(float screenWidth, float screenHeight);
 };
