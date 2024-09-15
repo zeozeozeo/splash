@@ -8,6 +8,7 @@ set(BOX2D_BUILD_TESTBED OFF)
 set(BOX2D_BUILD_DOCS OFF)
 add_subdirectory(thirdparty/box2d)
 add_subdirectory(thirdparty/raylib)
+add_subdirectory(thirdparty/spdlog)
 
 # add executable
 set(SOURCES
@@ -15,11 +16,12 @@ set(SOURCES
     src/world/World.cpp
     src/world/Entity.cpp
     src/world/Player.cpp
+    src/world/ContactListener.cpp
     src/debug/b2DrawRayLib.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 # link
-target_link_libraries(${PROJECT_NAME} raylib box2d)
+target_link_libraries(${PROJECT_NAME} raylib box2d spdlog::spdlog)
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)

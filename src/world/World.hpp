@@ -1,5 +1,6 @@
 #pragma once
 #include "../debug/b2DrawRayLib.hpp"
+#include "ContactListener.hpp"
 #include "Entity.hpp"
 #include "Player.hpp"
 #include "raylib.h"
@@ -21,6 +22,7 @@ private:
     b2World m_b2;
     Texture m_steamhappy;
     b2DrawRayLib m_debugDrawer;
+    MyContactListener m_contactListener;
 
     void updateCamera(float screenWidth, float screenHeight);
 };

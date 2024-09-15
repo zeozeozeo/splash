@@ -1,3 +1,6 @@
 [submodule "thirdparty/raylib"]
 	path = thirdparty/raylib
 	url = https://github.com/raysan5/raylib.git
+[submodule "thirdparty/spdlog"]
+	path = thirdparty/spdlog
+	url = https://github.com/gabime/spdlog.git

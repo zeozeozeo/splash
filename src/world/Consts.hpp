@@ -1,5 +1,10 @@
 #pragma once
 
-#define PIXELS_PER_METER 32.f
-#define WIDTH_COEFF (1280.f / PIXELS_PER_METER)
-#define HEIGHT_COEFF (720.f / PIXELS_PER_METER)
+// meters = pixels / PIXELS_PER_METER
+constexpr float PIXELS_PER_METER = 32.f;
+
+// cameraZoom = screenWidth / WIDTH2ZOOM
+constexpr float WIDTH2ZOOM = 1280.f / PIXELS_PER_METER;
+
+// cameraZoom = screenHeight / HEIGHT2ZOOM
+constexpr float HEIGHT2ZOOM = 720.f / PIXELS_PER_METER;

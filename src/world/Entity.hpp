@@ -9,8 +9,9 @@ public:
     void draw();
     virtual void update(float dt){};
     void syncWithPhysicsWorld();
-    void addToWorld(b2World& world, b2BodyType type, float friction = 0.2f,
-                    float restitution = 0.f, float density = 0.f);
+    virtual void addToWorld(b2World& world, b2BodyType type,
+                            float friction = 0.2f, float restitution = 0.f,
+                            float density = 0.f);
 
     constexpr Vector2 position() {
         return {m_rect.x, m_rect.y};
