@@ -108,3 +108,4 @@ Color b2DrawRayLib::M_ConvertColor(b2Color const& color,
             static_cast<unsigned char>(color.b * 255.0f),
             static_cast<unsigned char>(newAlpha * 255.0f)};
 }
+

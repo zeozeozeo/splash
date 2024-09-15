@@ -14,11 +14,11 @@ World::World(float width, float height)
 
     // add floor
     Entity floor{{-20.f, 10.f, 80.f, 1.f}, WHITE};
-    floor.addToWorld(m_b2, b2_staticBody);
+    floor.addToWorld(m_b2, b2_kinematicBody);
     m_entities.push_back(std::move(floor));
 
     // add player
-    m_player.addToWorld(m_b2, b2_kinematicBody);
+    m_player.addToWorld(m_b2, b2_dynamicBody);
     m_b2.SetContactListener(&m_contactListener);
 
     // debug drawer

@@ -48,6 +48,7 @@ void Entity::addToWorld(b2World& world, b2BodyType type, float friction,
         fixtureDef.friction = friction;
         fixtureDef.restitution = restitution;
         fixtureDef.density = density;
+        fixtureDef.isSensor = false;
         m_body->CreateFixture(&fixtureDef);
     }
 }
