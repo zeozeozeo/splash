@@ -16,3 +16,7 @@ void Player::update(float dt) {
 
     m_body->SetLinearVelocity(vel);
 }
+
+void Player::createSensor() {
+    
+}
