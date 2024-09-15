@@ -1,6 +1,5 @@
 #pragma once
 #include "../debug/b2DrawRayLib.hpp"
-#include "Box2D/Box2D.h"
 #include "Entity.hpp"
 #include "Player.hpp"
 #include "raylib.h"

@@ -57,7 +57,7 @@ void b2DrawRayLib::DrawSolidCircle(b2Vec2 const& center, float radius,
                 M_ConvertColor(color, 0.8f));
 }
 
-void b2DrawRayLib::DrawParticles(const b2Vec2* centers, float32 radius,
+void b2DrawRayLib::DrawParticles(const b2Vec2* centers, float radius,
                                  const b2ParticleColor* colors, int32 count) {
     for (int32 i = 0; i < count; ++i) {
         DrawCircleV(M_ToPixels(centers[i]), M_ToPixels(radius),

@@ -1,4 +1,6 @@
 #include "Entity.hpp"
+#include "box2d/b2_fixture.h"
+#include "box2d/b2_polygon_shape.h"
 
 void Entity::draw() {
     if (m_texture.id != 0) {
@@ -22,8 +24,8 @@ void Entity::syncWithPhysicsWorld() {
     m_rotation = RAD2DEG * m_body->GetAngle();
 }
 
-void Entity::addToWorld(b2World& world, b2BodyType type,
-                        float friction, float restitution, float density) {
+void Entity::addToWorld(b2World& world, b2BodyType type, float friction,
+                        float restitution, float density) {
     b2BodyDef def;
     def.position.Set(m_rect.x + m_rect.width / 2.f,
                      m_rect.y + m_rect.height / 2.f);

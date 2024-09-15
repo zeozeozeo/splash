@@ -68,7 +68,7 @@ void World::draw() {
     }
 
     m_player.draw();
-    m_b2.DrawDebugData();
+    m_b2.DebugDraw();
 
     auto mouseWorldPos = GetScreenToWorld2D(GetMousePosition(), m_camera);
     auto text = std::to_string(static_cast<int>(mouseWorldPos.x)) + ", " +

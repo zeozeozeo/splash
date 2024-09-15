@@ -1,5 +1,6 @@
 #pragma once
-#include "Box2D/Common/b2Draw.h"
+#include "box2d/b2_draw.h"
+#include "box2d/b2_math.h"
 #include "raylib.h"
 
 class b2DrawRayLib : public b2Draw {
@@ -16,7 +17,7 @@ public:
                     b2Color const& color) noexcept;
     void DrawSolidCircle(b2Vec2 const& center, float radius, b2Vec2 const& axis,
                          b2Color const& color) noexcept;
-    void DrawParticles(const b2Vec2* centers, float32 radius,
+    void DrawParticles(const b2Vec2* centers, float radius,
                        const b2ParticleColor* colors, int32 count);
     void DrawSegment(b2Vec2 const& p1, b2Vec2 const& p2,
                      b2Color const& color) noexcept;
