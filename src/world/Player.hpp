@@ -1,10 +1,18 @@
 #pragma once
 #include "Entity.hpp"
+#include <array>
 
 constexpr uint8_t JUMP_LIMIT_RESET = 2;
 
 // uintptr_t because we store it in the sensors' userdata ptr
-enum class SensorID : uintptr_t { NONE, HEAD, HITBOX, FEET, LEFT, RIGHT };
+enum PlayerSensor : uintptr_t {
+    SENSOR_NONE,
+    SENSOR_HEAD,
+    SENSOR_HITBOX,
+    SENSOR_FEET,
+    SENSOR_LEFT,
+    SENSOR_RIGHT
+};
 constexpr int NUM_SENSOR_IDS = 6;
 
 class Player : public Entity {
@@ -16,10 +24,11 @@ public:
     bool canJump();
     void update(float dt) override;
     b2Fixture* createSensor(b2Vec2 center, float w, float h,
-                            SensorID id = SensorID::NONE);
-    void onContact(SensorID id);
-    void onEndContact(SensorID id);
+                            PlayerSensor id = SENSOR_NONE);
+    void onContact(PlayerSensor id);
+    void onEndContact(PlayerSensor id);
 
 private:
     uint8_t m_jumpsLeft = JUMP_LIMIT_RESET;
+    std::array<bool, NUM_SENSOR_IDS> m_sensors;
 };

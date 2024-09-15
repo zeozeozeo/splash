@@ -35,23 +35,23 @@ void Player::addToWorld(b2World& world, b2BodyType type, float friction,
     // create sensors (total 6 fixtures): https://bhopkins.net/pages/mmphysics/
     // head
     createSensor({0.f, -m_rect.height / 2.f - 0.2f}, m_rect.width / 2.f, 0.2f,
-                 SensorID::HEAD);
+                 SENSOR_HEAD);
     // hitbox
     createSensor({0.f, 0.f}, m_rect.width / 2.f - 0.1f,
-                 m_rect.height / 2.f - 0.1f, SensorID::HITBOX);
+                 m_rect.height / 2.f - 0.1f, SENSOR_HITBOX);
     // feet
     createSensor({0.f, m_rect.height / 2.f + 0.2f}, m_rect.width / 2.f, 0.4f,
-                 SensorID::FEET);
+                 SENSOR_FEET);
     // left wall
     createSensor(
         {
             -m_rect.width / 2.f - 0.2f,
             0.f,
         },
-        0.4f, m_rect.height / 2.f - 0.2f, SensorID::LEFT);
+        0.4f, m_rect.height / 2.f - 0.05f, SENSOR_LEFT);
     // right wall
-    auto sens = createSensor({m_rect.width / 2.f + 0.2f, 0.f}, 0.4f,
-                             m_rect.height / 2.f - 0.2f, SensorID::RIGHT);
+    createSensor({m_rect.width / 2.f + 0.2f, 0.f}, 0.4f,
+                 m_rect.height / 2.f - 0.05f, SENSOR_RIGHT);
 }
 
 bool Player::canJump() {
@@ -70,15 +70,16 @@ void Player::update(float dt) {
         vel.y = -jumpStrength * dt;
         --m_jumpsLeft;
     }
-    if (IsKeyDown(KEY_A))
+    if (!m_sensors[SENSOR_LEFT] && IsKeyDown(KEY_A))
         vel.x = -3000.f * dt;
-    if (IsKeyDown(KEY_D))
+    if (!m_sensors[SENSOR_RIGHT] && IsKeyDown(KEY_D))
         vel.x = 3000.f * dt;
 
     m_body->SetLinearVelocity(vel);
 }
 
-b2Fixture* Player::createSensor(b2Vec2 center, float w, float h, SensorID id) {
+b2Fixture* Player::createSensor(b2Vec2 center, float w, float h,
+                                PlayerSensor id) {
     if (m_body == nullptr)
         return nullptr;
 
@@ -95,48 +96,50 @@ b2Fixture* Player::createSensor(b2Vec2 center, float w, float h, SensorID id) {
     return m_body->CreateFixture(&fixtureDef);
 }
 
-void Player::onContact(SensorID id) {
+void Player::onContact(PlayerSensor id) {
+    m_sensors[id] = true;
     switch (id) {
-    case SensorID::HEAD:
+    case SENSOR_HEAD:
         spdlog::trace("HEAD");
         break;
-    case SensorID::HITBOX:
+    case SENSOR_HITBOX:
         spdlog::trace("HITBOX");
         break;
-    case SensorID::FEET:
+    case SENSOR_FEET:
         spdlog::trace("FEET");
         m_jumpsLeft = JUMP_LIMIT_RESET;
         break;
-    case SensorID::LEFT:
+    case SENSOR_LEFT:
         spdlog::trace("LEFT");
         break;
-    case SensorID::RIGHT:
+    case SENSOR_RIGHT:
         spdlog::trace("RIGHT");
         break;
-    case SensorID::NONE:
+    case SENSOR_NONE:
         spdlog::trace("NONE");
         break;
     }
 }
 
-void Player::onEndContact(SensorID id) {
+void Player::onEndContact(PlayerSensor id) {
+    m_sensors[id] = false;
     switch (id) {
-    case SensorID::HEAD:
+    case SENSOR_HEAD:
         spdlog::trace("END HEAD");
         break;
-    case SensorID::HITBOX:
+    case SENSOR_HITBOX:
         spdlog::trace("END HITBOX");
         break;
-    case SensorID::FEET:
+    case SENSOR_FEET:
         spdlog::trace("END FEET");
         break;
-    case SensorID::LEFT:
+    case SENSOR_LEFT:
         spdlog::trace("END LEFT");
         break;
-    case SensorID::RIGHT:
+    case SENSOR_RIGHT:
         spdlog::trace("END RIGHT");
         break;
-    case SensorID::NONE:
+    case SENSOR_NONE:
         spdlog::trace("END NONE");
         break;
     }

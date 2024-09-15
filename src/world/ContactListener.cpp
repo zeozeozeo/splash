@@ -15,11 +15,11 @@ void MyContactListener::BeginContact(b2Contact* contact) {
     // determine which sensor was touched and tell that to the player
     if (sensorA)
         (static_cast<Player*>(fixtureA->GetBody()->GetUserData()))
-            ->onContact(static_cast<SensorID>(
+            ->onContact(static_cast<PlayerSensor>(
                 reinterpret_cast<uintptr_t>(fixtureA->GetUserData())));
     else if (sensorB)
         (static_cast<Player*>(fixtureB->GetBody()->GetUserData()))
-            ->onContact(static_cast<SensorID>(
+            ->onContact(static_cast<PlayerSensor>(
                 reinterpret_cast<uintptr_t>(fixtureB->GetUserData())));
 }
 
@@ -36,10 +36,10 @@ void MyContactListener::EndContact(b2Contact* contact) {
     // determine which sensor has stopped touching and tell that to the player
     if (sensorA)
         (static_cast<Player*>(fixtureA->GetBody()->GetUserData()))
-            ->onEndContact(static_cast<SensorID>(
+            ->onEndContact(static_cast<PlayerSensor>(
                 reinterpret_cast<uintptr_t>(fixtureA->GetUserData())));
     else if (sensorB)
         (static_cast<Player*>(fixtureB->GetBody()->GetUserData()))
-            ->onEndContact(static_cast<SensorID>(
+            ->onEndContact(static_cast<PlayerSensor>(
                 reinterpret_cast<uintptr_t>(fixtureB->GetUserData())));
 }
