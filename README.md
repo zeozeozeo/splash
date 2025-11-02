@@ -2,7 +2,7 @@
 
 Using the [LiquidFun](https://github.com/google/liquidfun) Box2D fork with Raylib to render a fluid simulation.
 
-![video demo](/media/demo.mp4)
+https://github.com/user-attachments/assets/42f51715-1968-4ab4-8b59-ddc847602a22
 
 ## Building
 
