@@ -21,6 +21,7 @@ void main() {
     vec4 texelColor = texture2D(texture0, fragTexCoord);
     if (texelColor.a > 0.21) {
         vec3 result = texelColor.rgb;
+        // outline (uncomment):
         //if (texelColor.a < 0.28) {
         //    result = vec3(1.0, 1.0, 1.0);
         //}
@@ -34,7 +35,7 @@ void main() {
 
         gl_FragColor = vec4(
             //vec3(noiseValue,noiseValue,noiseValue),
-            (result + gameColor) / 2.0,
+            mix(result, gameColor, 0.5),
             1.0
         );
     } else {
