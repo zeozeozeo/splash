@@ -1,7 +1,8 @@
-#include "Box2D/Box2D.h"
-#include "raylib.h"
+#include <Box2D/Box2D.h>
+#include <raylib.h>
 #include <string>
 #include <vector>
+#include <format>
 
 constexpr float LENGTH_UNIT = 128.f;
 
@@ -12,7 +13,7 @@ enum ShaderType {
 
 class entity {
 public:
-    entity(b2World* world, const b2BodyDef* def);
+    entity(b2World* world, const b2BodyDef* def, bool persistent = false);
 
     constexpr b2Body* Body() const {
         return m_body;
@@ -26,6 +27,10 @@ public:
         m_color = color;
     }
 
+    inline bool IsPersistent() const {
+        return persistent;
+    }
+
     void draw() {
         auto p = m_body->GetWorldPoint({-m_extent.x, -m_extent.y});
         DrawRectanglePro({p.x, p.y, m_extent.x * 2.f, m_extent.y * 2.f},
@@ -36,10 +41,12 @@ private:
     b2Body* m_body;
     b2Vec2 m_extent;
     Color m_color = WHITE;
+    bool persistent = false;
 };
 
-entity::entity(b2World* world, const b2BodyDef* def) {
+entity::entity(b2World* world, const b2BodyDef* def, bool persistent) {
     m_body = world->CreateBody(def);
+    this->persistent = persistent;
 }
 
 class particle {
@@ -84,7 +91,7 @@ int main(void) {
     // Call the body factory which allocates memory for the ground body
     // from a pool and creates the ground box shape (also from a pool).
     // The body is also added to the world.
-    entity groundBody{world, &groundBodyDef};
+    entity groundBody{world, &groundBodyDef, /*persistent=*/true};
 
     // Define the ground box shape.
     b2PolygonShape groundBox;
@@ -121,6 +128,7 @@ int main(void) {
     auto lastSpawnTime = 0.f;
     uint32_t hue = 0;
     float prevMouseX{}, prevMouseY{};
+    bool colorMixing = false;
 
     auto fluidTarget = LoadRenderTexture(GetScreenWidth(), GetScreenHeight());
     auto gameTarget = LoadRenderTexture(GetScreenWidth(), GetScreenHeight());
@@ -143,8 +151,22 @@ int main(void) {
         prevMouseX = mx;
         prevMouseY = my;
 
+        if (IsKeyPressed(KEY_M)) {
+            colorMixing = !colorMixing;
+        }
+
+        if (IsKeyPressed(KEY_R)) {
+            std::erase_if(entities, [&](const entity& e) {
+                if (!e.IsPersistent()) {
+                    world->DestroyBody(e.Body());
+                    return true;
+                }
+                return false;
+            });
+        }
+
         if (IsMouseButtonDown(MOUSE_LEFT_BUTTON) &&
-            GetTime() - lastSpawnTime > 0.03f) {
+            GetTime() - lastSpawnTime > 0.01f) {
             b2BodyDef bodyDef;
             bodyDef.type = b2_staticBody;
             bodyDef.position.Set(GetMouseX() + 5.f, GetMouseY() + 5.f);
@@ -177,6 +199,7 @@ int main(void) {
                 auto r2 = GetRandomValue(-50, 50);
                 particleDef.position.Set(mx + r1, my + r2);
                 particleDef.flags = b2_viscousParticle;
+                if (colorMixing) particleDef.flags |= b2_colorMixingParticle;
                 particleDef.velocity.Set(mouseVelX * 50, mouseVelY * 50);
                 particleSystem->CreateParticle(particleDef);
             }
@@ -187,6 +210,16 @@ int main(void) {
                     10, // velocity iterations
                     8   // position iterations
         );
+
+        // destroy offscreen particles
+        int screenWidth = GetScreenWidth();
+        int screenHeight = GetScreenHeight();
+        for (int32 i = particleSystem->GetParticleCount() - 1; i >= 0; --i) {
+            b2Vec2 pos = particleSystem->GetPositionBuffer()[i];
+            if (pos.x < 0 || pos.x > screenWidth || pos.y > screenHeight) {
+                particleSystem->DestroyParticle(i);
+            }
+        }
 
         BeginDrawing();
 
@@ -250,9 +283,15 @@ int main(void) {
         }
 
         DrawFPS(10, 10);
-        auto particlesText =
-            std::to_string(particleSystem->GetParticleCount()) + " particles";
-        DrawText(particlesText.c_str(), 10, 30, 20, WHITE);
+        DrawText(std::format("Particles: {}", particleSystem->GetParticleCount()).c_str(), 10, 30, 20, WHITE);
+        DrawText(std::format("Color (M)ixing: {}", colorMixing ? "On" : "Off").c_str(), 10, 50, 20, WHITE);
+        DrawText("(R)eset", 10, 70, 20, WHITE);
+#ifdef NDEBUG
+        DrawText("(Release Build)", 10, 90, 20, WHITE);
+#else
+        DrawText("(Debug Build)", 10, 90, 20, WHITE);
+#endif
+
         EndDrawing();
     }
 
