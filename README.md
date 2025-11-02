@@ -4,6 +4,8 @@ Using the [LiquidFun](https://github.com/google/liquidfun) Box2D fork with Rayli
 
 https://github.com/user-attachments/assets/42f51715-1968-4ab4-8b59-ddc847602a22
 
+<img width="778" height="612" alt="image" src="https://github.com/user-attachments/assets/288cd1eb-5e61-4635-bb4f-d37b756e51f2" />
+
 ## Building
 
 On windows you can just run/doubleclick `run.bat` in the project root (or use one of the [releases](https://github.com/zeozeozeo/splash/releases)).
