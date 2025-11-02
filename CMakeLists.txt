@@ -25,6 +25,7 @@ set(SOURCES
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
+target_include_directories(${PROJECT_NAME} PRIVATE thirdparty)
 
 # link
 target_link_libraries(${PROJECT_NAME} raylib Box2D)

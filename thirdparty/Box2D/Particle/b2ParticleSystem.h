@@ -414,6 +414,17 @@ public:
 	/// Get the particle density.
 	float32 GetDensity() const;
 
+	// [SPLASH-ADD START]
+	void SetViscous(float32 viscousStrength);
+	float32 GetViscous() const;
+	void SetSurfaceTensionNormalStrength(float32 surfaceTensionNormalStrength);
+	float32 GetSurfaceTensionNormalStrength() const;
+	void SetSurfaceTensionPressureStrength(float32 surfaceTensionPressureStrength);
+	float32 GetSurfaceTensionPressureStrength() const;
+	void SetColorMixingStrength(float32 colorMixingStrength);
+	float32 GetColorMixingStrength() const;
+	// [SPLASH-ADD END]
+
 	/// Change the particle gravity scale. Adjusts the effect of the global
 	/// gravity vector on particles.
 	void SetGravityScale(float32 gravityScale);
@@ -1298,6 +1309,42 @@ inline float32 b2ParticleSystem::GetDensity() const
 	return m_def.density;
 }
 
+// [SPLASH-ADD START]
+inline void b2ParticleSystem::SetViscous(float32 viscousStrength)
+{
+	m_def.viscousStrength = viscousStrength;
+}
+
+inline float32 b2ParticleSystem::GetViscous() const
+{
+	return m_def.viscousStrength;
+}
+
+inline void b2ParticleSystem::SetSurfaceTensionNormalStrength(float32 surfaceTensionNormalStrength) {
+    m_def.surfaceTensionNormalStrength = surfaceTensionNormalStrength;
+}
+
+inline float32 b2ParticleSystem::GetSurfaceTensionNormalStrength() const {
+    return m_def.surfaceTensionNormalStrength;
+}
+
+inline void b2ParticleSystem::SetSurfaceTensionPressureStrength(float32 surfaceTensionPressureStrength) {
+    m_def.surfaceTensionPressureStrength = surfaceTensionPressureStrength;
+}
+
+inline float32 b2ParticleSystem::GetSurfaceTensionPressureStrength() const {
+    return m_def.surfaceTensionPressureStrength;
+}
+
+inline void b2ParticleSystem::SetColorMixingStrength(float32 colorMixingStrength) {
+    m_def.colorMixingStrength = colorMixingStrength;
+}
+
+inline float32 b2ParticleSystem::GetColorMixingStrength() const {
+    return m_def.colorMixingStrength;
+}
+// [SPLASH-ADD END]
+
 inline void b2ParticleSystem::SetGravityScale(float32 gravityScale)
 {
 	m_def.gravityScale = gravityScale;
@@ -1541,4 +1588,3 @@ inline int b2ParticleSystem::CopyBuffer(int startIndex, int numParticles,
 #endif // LIQUIDFUN_EXTERNAL_LANGUAGE_API
 
 #endif
-
